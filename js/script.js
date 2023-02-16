@@ -1,24 +1,47 @@
-const previousOpetationText = document.querySelector("#previous-operation");
+const previousOperationText = document.querySelector("#previous-operation");
 const currentOperationText = document.querySelector("#current-operation");
 const buttons = document.querySelectorAll("#buttons-container button");
 
-class calculator {
-    constructor(previousOpetationText, currentOperationText) {
-        this.previousOpetationText = previousOpetationText;
-        this.currentOperationText = currentOperationText;
-        this.currentOperation = "";
+class Calculator {
+  constructor(previousOperationText, currentOperationText) {
+    this.previousOperationText = previousOperationText;
+    this.currentOperationText = currentOperationText;
+    this.currentOperation = "";
+  }
+
+  // add digit to calculator screen
+  addDigit(digit) {
+    //check if current operation already has a dot 
+    if(digit ==="." && this.currentOperationText.innerText.includes(".")) {
+        return;
     }
+    this.currentOperation = digit;
+    this.updateScreen();
+  }
+
+  //
+  processOperation(operation){
+    console.log(operation);
+  }
+  
+
+  // Change values of calculator screen
+  updateScreen() {
+    this.currentOperation.innerText += this.currentOperation;
+  }
 }
 
-buttons.forEach((btn) =>{
-    btn.addEventListener("click", (e) =>{
-        const value = e.target.innerText;
+const calc = new Calculator(previousOperationText, currentOperationText);
 
-        if(+value >=0 || value ==="."){
-            console.log(value);
-        } else {
-            console.log("op: " +value);
-        }
+buttons.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const value = e.target.innerText;
 
-    });
+    if (+value >= 0 || value === ".") {
+      console.log(value);
+      calc.addDigit(value);
+    } else {
+      calc.processOperation(value);
+    }
+  });
 });
